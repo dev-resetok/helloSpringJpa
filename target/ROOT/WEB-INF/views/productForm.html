@@ -135,6 +135,10 @@
         </div>
 
     </form>
-
+    <footer style="margin-top: 40px; padding: 12px; border-top: 1px solid #ccc; font-size: 0.85em; color: #555;">
+        <p th:text="'실습 수행 일시: ' + ${#temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 HH:mm:ss')}
+                + ' | 학번: 2071130 | 성명: 양승민'">
+        </p>
+    </footer>
 </body>
 </html>
