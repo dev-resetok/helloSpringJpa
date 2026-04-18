@@ -37,6 +37,19 @@
 
     <h1>상품 목록</h1>
 
+    <form th:action="@{/products}" method="get" style="margin-bottom: 16px;">
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="상품명 검색"/>
+        <select name="categoryId">
+            <option value="">-- 전체 카테고리 --</option>
+            <option th:each="cat : ${categories}"
+                    th:value="${cat.id}"
+                    th:text="${cat.name}"
+                    th:selected="${cat.id == categoryId}">
+            </option>
+        </select>
+        <button type="submit">검색</button>
+    </form>
+
     <!--
         th:if="${successMessage}":
         Model에 successMessage 속성이 있을 때만 이 div를 렌더링합니다.
@@ -49,8 +62,14 @@
 
     <a class="btn" th:href="@{/products/create}">+ 새 상품 등록</a>
 
-    <div class="empty-msg" th:if="${#lists.isEmpty(products)}">
+    <!-- 상품이 아예 없을 때 -->
+    <div class="empty-msg" th:if="${#lists.isEmpty(products) and keyword == null and categoryId == null}">
         등록된 상품이 없습니다. 새 상품을 등록해 주세요.
+    </div>
+
+    <!-- 검색 결과가 없을 때 -->
+    <div class="empty-msg" th:if="${#lists.isEmpty(products) and (keyword != null or categoryId != null)}">
+        검색 결과가 없습니다.
     </div>
 
     <table th:unless="${#lists.isEmpty(products)}">
